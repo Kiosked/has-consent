@@ -28,4 +28,16 @@ describe("ConsentStringParser", function() {
             expect(parser.version).toBe(1);
         });
     });
+
+    describe("vendorAllowed", function() {
+        it("detects correctly for the vendors listed in example", function() {
+            // Taken from: https://github.com/triplelift/IAB-Consent-String-Parser/blob/master/src/test/java/com/iab/gdpr/ConsentStringParserTest.java#L27
+            expect(parser.vendorAllowed(1)).toBe(true);
+            expect(parser.vendorAllowed(5)).toBe(true);
+            expect(parser.vendorAllowed(7)).toBe(true);
+            expect(parser.vendorAllowed(9)).toBe(true);
+            expect(parser.vendorAllowed(0)).toBe(false);
+            expect(parser.vendorAllowed(10)).toBe(false);
+        });
+    });
 });
