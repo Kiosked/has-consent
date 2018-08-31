@@ -18,6 +18,7 @@ module.exports = {
 
     output: {
         filename: "has-consent.js",
-        path: DIST
+        path: DIST,
+        libraryTarget: "commonjs2"
     }
 };
