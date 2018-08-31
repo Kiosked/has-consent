@@ -7,6 +7,8 @@
     "test": "test"
   },
   "scripts": {
+    "build": "webpack --mode production --config webpack.config.js",
+    "dev": "webpack --mode development --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,5 +27,12 @@
   "bugs": {
     "url": "https://github.com/Kiosked/has-consent/issues"
   },
-  "homepage": "https://github.com/Kiosked/has-consent#readme"
+  "homepage": "https://github.com/Kiosked/has-consent#readme",
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-loader": "^8.0.0",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
+  }
 }

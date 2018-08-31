@@ -12,5 +12,5 @@ insert_final_newline = true
 max_line_length = 0
 trim_trailing_whitespace = false
 
-[{karma.conf.js,package.json,package-lock.json,.prettierrc}]
+[{karma.conf.js,package.json,package-lock.json,.prettierrc,.babelrc}]
 indent_size = 2
