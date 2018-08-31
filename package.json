@@ -1,0 +1,29 @@
+{
+  "name": "has-consent",
+  "version": "0.0.0",
+  "description": "GDPR consent string validation library",
+  "main": "source/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kiosked/has-consent.git"
+  },
+  "keywords": [
+    "gdpr",
+    "consent",
+    "cookie",
+    "dpa",
+    "consent-string"
+  ],
+  "author": "Perry Mitchell <perry@kiosked.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kiosked/has-consent/issues"
+  },
+  "homepage": "https://github.com/Kiosked/has-consent#readme"
+}
