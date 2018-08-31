@@ -1,8 +1,12 @@
 {
   "name": "has-consent",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "GDPR consent string validation library",
-  "main": "source/index.js",
+  "main": "dist/has-consent.min.js",
+  "files": [
+    "dist/**/*.js",
+    "API.md"
+  ],
   "directories": {
     "test": "test"
   },
@@ -10,6 +14,7 @@
     "build": "webpack --mode production --config webpack.config.js && webpack --mode development --config webpack.config.js",
     "dev": "webpack --mode development --config webpack.config.js",
     "docs": "jsdoc2md --files source/**/*.js > API.md",
+    "prepublishOnly": "npm run build",
     "test": "run-s dev test:specs",
     "test:specs": "jest"
   },
