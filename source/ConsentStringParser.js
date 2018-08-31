@@ -19,8 +19,21 @@ const VENDOR_ID_SIZE = 16;
 const VERSION_BIT_OFFSET = 0;
 const VERSION_BIT_SIZE = 6;
 
+/**
+ * Parser instance for processing IAB consent strings
+ * @class ConsentStringParser
+ */
 export default class ConsentStringParser {
+    /**
+     * Constructor for the parser
+     * @param {String} consentString The consent string
+     * @throws {Error} Throws for invalid consent strings
+     * @memberof ConsentStringParser
+     */
     constructor(consentString) {
+        if (!consentString) {
+            throw new Error("Invalid consent string value");
+        }
         this.consentString = consentString;
         const buff = decodeBase64ToArrayBuffer(consentString);
         this.consentData = buff.reduce((binStr, nextByte) => {
@@ -32,22 +45,52 @@ export default class ConsentStringParser {
         }
     }
 
+    /**
+     * CMP ID
+     * @type {Number}
+     * @memberof ConsentStringParser
+     * @readonly
+     */
     get cmpID() {
         return this._getInt(CMP_ID_OFFSET, CMP_ID_SIZE);
     }
 
+    /**
+     * CMP version
+     * @type {Number}
+     * @memberof ConsentStringParser
+     * @readonly
+     */
     get cmpVersion() {
         return this._getInt(CMP_VERSION_OFFSET, CMP_VERSION_SIZE);
     }
 
+    /**
+     * The encoding type used for the vendor(s) list
+     * @type {Number}
+     * @memberof ConsentStringParser
+     * @readonly
+     */
     get vendorEncodingType() {
         return this._getInt(ENCODING_TYPE_OFFSET, ENCODING_TYPE_SIZE);
     }
 
+    /**
+     * The consent string version used by the CMP
+     * @type {Number}
+     * @memberof ConsentStringParser
+     * @readonly
+     */
     get version() {
         return this._getInt(VERSION_BIT_OFFSET, VERSION_BIT_SIZE);
     }
 
+    /**
+     * Check if a purpose is allowed
+     * @param {Number} purposeID The ID of the purpose to check
+     * @returns {Boolean} True if the purpose is allowed, false otherwise
+     * @memberof ConsentStringParser
+     */
     purposeAllowed(purposeID) {
         if (purposeID < 1 || purposeID > this.allowedPurposes.length) {
             return false;
@@ -55,6 +98,12 @@ export default class ConsentStringParser {
         return Boolean(this.allowedPurposes[purposeID - 1]);
     }
 
+    /**
+     * Check if a vendor is allowed
+     * @param {Number} vendorID The ID of the vendor to check
+     * @returns {Boolean} True if the vendor is allowed, false otherwise
+     * @memberof ConsentStringParser
+     */
     vendorAllowed(vendorID) {
         if (this.vendorEncodingType === VENDOR_ENCODING_RANGE) {
             const present = this._vendorInRange(vendorID);
@@ -67,16 +116,37 @@ export default class ConsentStringParser {
         }
     }
 
+    /**
+     * Get a bit of data from the parsed consent string
+     * @param {Number} offset The offset to fetch from
+     * @returns {Number} The requested bit
+     * @memberof ConsentStringParser
+     * @protected
+     */
     _getBit(offset) {
         const binStr = this.consentData.substr(offset, 1);
         return parseInt(binStr, 10);
     }
 
+    /**
+     * Get a number from the parsed consent data
+     * Takes a range of bits and converts them into an integer
+     * @param {Number} offset The offset to read from
+     * @param {Number} size The amount of bits to read
+     * @returns {Number} The integer value of the bit range
+     * @memberof ConsentStringParser
+     * @protected
+     */
     _getInt(offset, size) {
         const binStr = this.consentData.substr(offset, size);
         return convertBitstringToInteger(binStr);
     }
 
+    /**
+     * Process purposes from allowed purposes ID range
+     * @memberof ConsentStringParser
+     * @protected
+     */
     _processPurposes() {
         this.allowedPurposes = [];
         for (let i = PURPOSES_OFFSET, max = PURPOSES_OFFSET + PURPOSES_SIZE; i < max; i += 1) {
@@ -90,6 +160,11 @@ export default class ConsentStringParser {
         }
     }
 
+    /**
+     * Process the vendors list by creating ranges of vendor IDs
+     * @memberof ConsentStringParser
+     * @protected
+     */
     _processVendorsList() {
         this.rangeEntries = [];
         this.defaultConsent = this._getBit(DEFAULT_CONSENT_OFFSET);
@@ -112,6 +187,14 @@ export default class ConsentStringParser {
         }
     }
 
+    /**
+     * Check if a vendor ID appears in any ID range
+     * @param {Number} vendorID The vendor ID number
+     * @returns {Boolean} True if the vendor ID appears in a range,
+     *  false otherwise
+     * @memberof ConsentStringParser
+     * @protected
+     */
     _vendorInRange(vendorID) {
         const limit = this.rangeEntries.length;
 		if (limit === 0) {
