@@ -18,4 +18,4 @@ const consent = new ConsentStringParser("BN5lERiOMYEdiAOAWeFRAAYAAaAAptQ");
 consent.vendorAllowed(MY_VENDOR_ID); // true
 ```
 
-This library also handles purposes validation. You can read more about the supported methods in the [API documentation][API.md];
+This library also handles purposes validation. You can read more about the supported methods in the [API documentation](API.md);
