@@ -6,6 +6,9 @@
 ## About
 Decoder of **GDPR consent strings** for the browser, including helpers to detect vendor permissions. If you're looking for something to use in NodeJS, try the [consent-string](https://github.com/InteractiveAdvertisingBureau/Consent-String-SDK-JS) library. This decoder is built for a smaller bundle size.
 
+## Installation
+You can install via npm: `npm install has-content --save-dev`
+
 ## Usage
 This library is compiled to a CommonJS2 format bundle in the `/dist` directory. Both minified and non-minified copies are written, but the minified version is returned by the `main` property. **Has-Consent** should be referenced and included in your bundle, and is not intended to be dropped straight on to a web page.
 
