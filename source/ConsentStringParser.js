@@ -10,6 +10,8 @@ const ENCODING_TYPE_OFFSET = 172;
 const ENCODING_TYPE_SIZE = 1;
 const NUM_ENTRIES_OFFSET = 174;
 const NUM_ENTRIES_SIZE = 12;
+const PURPOSES_OFFSET = 132;
+const PURPOSES_SIZE = 24;
 const RANGE_ENTRY_OFFSET = 186;
 const VENDOR_BITFIELD_OFFSET = 173;
 const VENDOR_ENCODING_RANGE = 1;
@@ -24,6 +26,7 @@ export default class ConsentStringParser {
         this.consentData = buff.reduce((binStr, nextByte) => {
             return `${binStr}${convertByteToBitstring(nextByte)}`;
         }, "");
+        this._processPurposes();
         if (this.vendorEncodingType === VENDOR_ENCODING_RANGE) {
             this._processVendorsList();
         }
@@ -45,16 +48,22 @@ export default class ConsentStringParser {
         return this._getInt(VERSION_BIT_OFFSET, VERSION_BIT_SIZE);
     }
 
+    purposeAllowed(purposeID) {
+        if (purposeID < 1 || purposeID > this.allowedPurposes.length) {
+            return false;
+        }
+        return Boolean(this.allowedPurposes[purposeID - 1]);
+    }
+
     vendorAllowed(vendorID) {
         if (this.vendorEncodingType === VENDOR_ENCODING_RANGE) {
             const present = this._vendorInRange(vendorID);
             return present !== Boolean(this.defaultConsent);
-        } else {
-            try {
-                return Boolean(this._getBit(VENDOR_BITFIELD_OFFSET + vendorID - 1));
-            } catch {
-                return false;
-            }
+        }
+        try {
+            return Boolean(this._getBit(VENDOR_BITFIELD_OFFSET + vendorID - 1));
+        } catch {
+            return false;
         }
     }
 
@@ -66,6 +75,19 @@ export default class ConsentStringParser {
     _getInt(offset, size) {
         const binStr = this.consentData.substr(offset, size);
         return convertBitstringToInteger(binStr);
+    }
+
+    _processPurposes() {
+        this.allowedPurposes = [];
+        for (let i = PURPOSES_OFFSET, max = PURPOSES_OFFSET + PURPOSES_SIZE; i < max; i += 1) {
+            this.allowedPurposes.push(this._getBit(i));
+        }
+        this.purposes = [];
+        for (let i = 1, max = this.allowedPurposes.length; i <= max; i += 1) {
+            if (this.purposeAllowed(i)) {
+                this.purposes.push(i);
+            }
+        }
     }
 
     _processVendorsList() {

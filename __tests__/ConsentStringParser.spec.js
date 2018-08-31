@@ -29,8 +29,16 @@ describe("ConsentStringParser", function() {
         });
     });
 
+    describe("purposeAllowed", function() {
+        it("detects allowance correctly for the purposes listed in example", function() {
+            // Taken from: https://github.com/triplelift/IAB-Consent-String-Parser/blob/master/src/test/java/com/iab/gdpr/ConsentStringParserTest.java#L24
+            expect(parser.purposeAllowed(2)).toBe(true);
+            expect(parser.purposeAllowed(1)).toBe(false);
+        });
+    });
+
     describe("vendorAllowed", function() {
-        it("detects correctly for the vendors listed in example", function() {
+        it("detects allowance correctly for the vendors listed in example", function() {
             // Taken from: https://github.com/triplelift/IAB-Consent-String-Parser/blob/master/src/test/java/com/iab/gdpr/ConsentStringParserTest.java#L27
             expect(parser.vendorAllowed(1)).toBe(true);
             expect(parser.vendorAllowed(5)).toBe(true);
