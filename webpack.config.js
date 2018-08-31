@@ -1,7 +1,24 @@
-const baseConfig = require("./webpack.base.config.js");
+const path = require("path");
 
-module.exports = (env, argv) => {
-    return argv.mode === "production"
-        ? [baseConfig]
-        : [baseConfig];
-};
+const DIST = path.resolve(__dirname, "./dist");
+const SOURCE = path.resolve(__dirname, "./source");
+
+module.exports = (env, argv) => ({
+    entry: path.join(SOURCE, "index.js"),
+
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: "babel-loader"
+            }
+        ]
+    },
+
+    output: {
+        filename: argv.mode === "production" ? "has-consent.min.js" : "has-consent.js",
+        path: DIST,
+        libraryTarget: "commonjs2"
+    }
+});
