@@ -28,4 +28,30 @@ describe("Consent-String integration", function() {
         expect(parser.vendorAllowed(23)).toBe(false);
         expect(parser.vendorAllowed(91)).toBe(false);
     });
+
+    it("detects allowed purposes", function() {
+        const consentData = new ConsentString();
+        consentData.setGlobalVendorList(globalVendorsList);
+        consentData.setCmpId(1);
+        consentData.setCmpVersion(1);
+        consentData.setPurposesAllowed([1, 2, 4]);
+        const consentString = consentData.getConsentString();
+        const parser = new ConsentStringParser(consentString);
+        expect(parser.purposeAllowed(1)).toBe(true);
+        expect(parser.purposeAllowed(2)).toBe(true);
+        expect(parser.purposeAllowed(4)).toBe(true);
+    });
+
+    it("detects disallowed purposes", function() {
+        const consentData = new ConsentString();
+        consentData.setGlobalVendorList(globalVendorsList);
+        consentData.setCmpId(1);
+        consentData.setCmpVersion(1);
+        consentData.setPurposesAllowed([1, 2, 4]);
+        const consentString = consentData.getConsentString();
+        const parser = new ConsentStringParser(consentString);
+        expect(parser.purposeAllowed(3)).toBe(false);
+        expect(parser.purposeAllowed(5)).toBe(false);
+        expect(parser.purposeAllowed(6)).toBe(false);
+    });
 });
