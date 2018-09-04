@@ -22,3 +22,6 @@ consent.vendorAllowed(MY_VENDOR_ID); // true
 ```
 
 This library also handles purposes validation. You can read more about the supported methods in the [API documentation](API.md);
+
+### IAB Global Vendors List
+You can find the complete list of IAB vendor IDs (along with purposes) [here](https://vendorlist.consensu.org/vendorlist.json).
