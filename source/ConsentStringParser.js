@@ -200,9 +200,9 @@ export default class ConsentStringParser {
 		if (limit === 0) {
 			return false;
 		}
-		let index = limit / 2;
+		let index = Math.floor(limit / 2);
 		while (index >= 0 && index < limit) {
-			const entry = this.rangeEntries[index];
+            const entry = this.rangeEntries[index];
 			if (entry.containsVendorID(vendorID)) {
 				return true;
 			}
@@ -210,9 +210,9 @@ export default class ConsentStringParser {
 				return false;
 			}
 			if (entry.vendorIDGreaterThanMax(vendorID)) {
-				index = (index + ((limit - index) / 2));
+				index = (index + Math.floor((limit - index) / 2));
 			} else {
-				index = index / 2;
+				index = Math.floor(index / 2);
 			}
 		}
 		return false;
