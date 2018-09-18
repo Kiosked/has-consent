@@ -21,13 +21,11 @@ function prepareBase64ForDecode(b64) {
     while (unsafe.length % 4 !== 0) {
         unsafe += "=";
     }
-    unsafe = unsafe
-        .replace(/-/g, "+")
-        .replace(/_/g, "/");
+    unsafe = unsafe.replace(/-/g, "+").replace(/_/g, "/");
     return unsafe;
 }
 
-function zeroPad(text, size=8) {
+function zeroPad(text, size = 8) {
     let output = text;
     while (output.length < size) {
         output = `0${output}`;

@@ -1,4 +1,8 @@
-import { convertBitstringToInteger, convertByteToBitstring, decodeBase64ToArrayBuffer } from "./decode.js";
+import {
+    convertBitstringToInteger,
+    convertByteToBitstring,
+    decodeBase64ToArrayBuffer
+} from "./decode.js";
 import VendorRangeEntry from "./VendorRangeEntry.js";
 
 const CMP_ID_OFFSET = 78;
@@ -197,24 +201,24 @@ export default class ConsentStringParser {
      */
     _vendorInRange(vendorID) {
         const limit = this.rangeEntries.length;
-		if (limit === 0) {
-			return false;
-		}
-		let index = Math.floor(limit / 2);
-		while (index >= 0 && index < limit) {
+        if (limit === 0) {
+            return false;
+        }
+        let index = Math.floor(limit / 2);
+        while (index >= 0 && index < limit) {
             const entry = this.rangeEntries[index];
-			if (entry.containsVendorID(vendorID)) {
-				return true;
-			}
-			if (index === 0 || index === limit - 1) {
-				return false;
-			}
-			if (entry.vendorIDGreaterThanMax(vendorID)) {
-				index = (index + Math.floor((limit - index) / 2));
-			} else {
-				index = Math.floor(index / 2);
-			}
-		}
-		return false;
+            if (entry.containsVendorID(vendorID)) {
+                return true;
+            }
+            if (index === 0 || index === limit - 1) {
+                return false;
+            }
+            if (entry.vendorIDGreaterThanMax(vendorID)) {
+                index = index + Math.floor((limit - index) / 2);
+            } else {
+                index = Math.floor(index / 2);
+            }
+        }
+        return false;
     }
 }
