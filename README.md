@@ -1,7 +1,7 @@
 # Has-Consent
 > GDPR consent string validation library
 
-[![Build Status](https://travis-ci.org/Kiosked/has-consent.svg?branch=master)](https://travis-ci.org/Kiosked/has-consent)
+[![Build Status](https://travis-ci.org/Kiosked/has-consent.svg?branch=master)](https://travis-ci.org/Kiosked/has-consent) [![npm version](https://badge.fury.io/js/has-consent.svg)](https://www.npmjs.com/package/has-consent)
 
 ## About
 Decoder of **GDPR consent strings** for the browser, including helpers to detect vendor permissions. If you're looking for something to use in NodeJS, try the [consent-string](https://github.com/InteractiveAdvertisingBureau/Consent-String-SDK-JS) library. This decoder is built for a smaller bundle size. Inspiration for this smaller library was taken from the [Java-based IAB consent string parser](https://github.com/triplelift/IAB-Consent-String-Parser).
