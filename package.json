@@ -14,9 +14,18 @@
     "build": "webpack --mode production --config webpack.config.js && webpack --mode development --config webpack.config.js",
     "dev": "webpack --mode development --config webpack.config.js",
     "docs": "jsdoc2md --files source/**/*.js > API.md",
+    "format": "prettier --write '{source,__tests__}/**/*.js'",
+    "precommit": "lint-staged",
     "prepublishOnly": "npm run build",
-    "test": "run-s dev test:specs",
+    "test": "run-s dev test:specs test:format",
+    "test:format": "prettier-check '{source,__tests__}/**/*.js'",
     "test:specs": "jest"
+  },
+  "lint-staged": {
+    "{source,__tests__}/**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
@@ -42,9 +51,13 @@
     "babel-jest": "^23.4.2",
     "babel-loader": "^8.0.0",
     "consent-string": "^1.2.4",
+    "husky": "^0.14.3",
     "jest": "^23.5.0",
     "jsdoc-to-markdown": "^4.0.1",
+    "lint-staged": "^7.2.2",
     "npm-run-all": "^4.1.3",
+    "prettier": "^1.14.2",
+    "prettier-check": "^2.0.0",
     "regenerator-runtime": "^0.12.1",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0"
